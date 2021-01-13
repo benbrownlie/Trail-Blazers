@@ -42,7 +42,7 @@ void Game::draw()
 	BeginDrawing();
 
 	BeginMode2D(*m_camera);
-	ClearBackground(RAYWHITE);
+	ClearBackground(BLACK);
 
 	for (int i = 0; i < m_sceneCount; i++)
 	{
