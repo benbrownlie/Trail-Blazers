@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include "raylib.h"
 #include "Sprite.h"
+#include "Game.h"
 
 Actor::Actor(float x, float y, float collisionRadius, char icon = ' ', float maxSpeed = 1)
 {
@@ -234,6 +235,7 @@ bool Actor::checkCollision(Actor* other)
 
 void Actor::onCollision(Actor* other)
 {
+    Game::destroy(other);
 }
 
 void Actor::update(float deltaTime)
@@ -248,7 +250,7 @@ void Actor::update(float deltaTime)
         m_velocity = m_velocity.getNormalized() * m_maxSpeed;
 
     //Increase position by the current velocity
-    setLocalPosition(m_velocity * deltaTime);
+    setLocalPosition(getLocalPosition() + m_velocity * deltaTime);
 }
 
 void Actor::draw()
