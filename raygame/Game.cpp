@@ -6,6 +6,10 @@ Scene** Game::m_scenes = new Scene*;
 int Game::m_sceneCount = 0;
 int Game::m_currentSceneIndex = 0;
 
+Actor* testActor = new Actor(5, 5, 0, '@', 0);
+Actor* testActor2 = new Actor(5, 6, 0, '$', 0);
+
+Scene* scene1 = new Scene();
 
 Game::Game()
 {
@@ -16,17 +20,39 @@ Game::Game()
 	m_sceneCount = 0;
 }
 
+void* Game::buildWalls()
+{
+	for (int i = 0; i < 30; i++)
+	{
+		Actor* testDummy1 = new Actor(-1, i-5, 0, '|', 0);
+		Actor* testDummy2 = new Actor(33, i-5, 0, '|', 0);
+		Actor* testDummy3 = new Actor(1.5+i, -1, 0, '-', 0);
+		Actor* testDummy4 = new Actor(1.5+i, 25, 0, '-', 0);
+		scene1->addActor(testDummy1);
+		scene1->addActor(testDummy2);
+		scene1->addActor(testDummy3);
+		scene1->addActor(testDummy4);
+	}
+
+	return 0;
+}
+
 void Game::start()
 {
 	int screenWidth = 1024;
 	int screenHeight = 760;
 
-	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+	InitWindow(screenWidth, screenHeight, "Trail Blazers");
 	m_camera->offset = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->target = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->zoom = 1;
 
 	SetTargetFPS(60);
+
+	addScene(scene1);
+	//scene1->addActor(testActor);
+	//scene1->addActor(testActor2);
+	buildWalls();
 }
 
 void Game::update(float deltaTime)
@@ -42,7 +68,7 @@ void Game::draw()
 	BeginDrawing();
 
 	BeginMode2D(*m_camera);
-	ClearBackground(RAYWHITE);
+	ClearBackground(BLACK);
 
 	for (int i = 0; i < m_sceneCount; i++)
 	{
@@ -76,6 +102,8 @@ void Game::run()
 
 	end();
 }
+
+
 
 Scene* Game::getScene(int index)
 {
