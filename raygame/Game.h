@@ -72,6 +72,9 @@ public:
     /// <param name="actor">The actor that will be deleted.</param>
     static void destroy(Actor* actor);
 
+    //Removes a wall from the scene
+    static void destroyWall(Wall* wall);
+
     /// <summary>
     /// Sets the game state to be the given value. If true, the game will end.
     /// </summary>

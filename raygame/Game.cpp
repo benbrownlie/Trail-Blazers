@@ -24,14 +24,14 @@ void* Game::buildWalls()
 {
 	for (int i = 0; i < 30; i++)
 	{
-		Actor* testDummy1 = new Actor(-1, i-5, 0, '|', 0);
-		Actor* testDummy2 = new Actor(33, i-5, 0, '|', 0);
-		Actor* testDummy3 = new Actor(1.5+i, -1, 0, '-', 0);
-		Actor* testDummy4 = new Actor(1.5+i, 25, 0, '-', 0);
-		scene1->addActor(testDummy1);
-		scene1->addActor(testDummy2);
-		scene1->addActor(testDummy3);
-		scene1->addActor(testDummy4);
+		Wall* testDummy1 = new Wall(-1, i-5, 0, '|', 0);
+		Wall* testDummy2 = new Wall(33, i-5, 0, '|', 0);
+		Wall* testDummy3 = new Wall(1.5+i, -1, 0, '-', 0);
+		Wall* testDummy4 = new Wall(1.5+i, 25, 0, '-', 0);
+		scene1->addWall(testDummy1);
+		scene1->addWall(testDummy2);
+		scene1->addWall(testDummy3);
+		scene1->addWall(testDummy4);
 	}
 
 	return 0;
@@ -219,6 +219,13 @@ void Game::destroy(Actor* actor)
 		actor->getParent()->removeChild(actor);
 	actor->end();
 	delete actor;
+}
+
+void Game::destroyWall(Wall* wall)
+{
+	getCurrentScene()->removeWall(wall);
+	wall->end();
+	delete wall;
 }
 
 void Game::setGameOver(bool value)
