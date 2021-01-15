@@ -22,7 +22,7 @@ Actor::Actor(float x, float y, float collisionRadius, char icon = ' ', float max
 
 Actor::Actor(float x, float y, float collisionRadius, Sprite* sprite, float maxSpeed = 1) : Actor(x, y, collisionRadius, ' ', maxSpeed)
 {
-    m_sprite = sprite;
+  m_sprite = sprite;
 }
 
 Actor::Actor(float x, float y, float collisionRadius, const char* spriteFilePath, float maxSpeed = 1) : Actor(x, y, collisionRadius, ' ', maxSpeed)

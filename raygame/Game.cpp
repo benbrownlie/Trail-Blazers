@@ -3,14 +3,15 @@
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
+Scene* Game::m_sceneP = new Scene;
 int Game::m_sceneCount = 0;
 int Game::m_currentSceneIndex = 0;
-
 
 Game::Game()
 {
 	m_gameOver = false;
 	m_scenes = new Scene*;
+	m_sceneP = new Scene;
 	m_camera = new Camera2D();
 	m_currentSceneIndex = 0;
 	m_sceneCount = 0;
@@ -27,6 +28,12 @@ void Game::start()
 	m_camera->zoom = 1;
 
 	SetTargetFPS(60);
+
+	int startingSceneIndex = 0;
+
+	startingSceneIndex = addScene(m_sceneP);
+
+	m_sceneP->addActor(m_player1);
 }
 
 void Game::update(float deltaTime)

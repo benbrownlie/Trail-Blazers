@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "Player.h"
 class Camera2D;
 
 static class Game
@@ -78,7 +79,8 @@ public:
     /// <returns>The world matrix of the current scene.</returns>
     static MathLibrary::Matrix3* getWorld();
     void run();
-
+    Actor* m_player1;
+    Player* m_player2;
 private:
 	void start();
 	void update(float delaTime);
@@ -89,6 +91,7 @@ private:
     Camera2D* m_camera;
     static bool m_gameOver;
 	static Scene** m_scenes;
+    static Scene* m_sceneP;
     static int m_sceneCount;
     static int m_currentSceneIndex;
     

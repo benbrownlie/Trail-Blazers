@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "Game.h"
 
 Player::Player()
 {
@@ -19,17 +19,18 @@ Player::Player(float x, float y, float collision, char icon, float maxSpeed)
 
 void Player::onCollision(Actor* other)
 {
-	Game game;
-	Scene* scene = game.getScene(game.getCurrentSceneIndex());
-	if (other == )
-	{
-		scene->removeActor(other);
-	}
+	
+	//Game game;
+	//Scene* scene = game.getScene(game.getCurrentSceneIndex());
+	//if (checkCollision(other) == true)
+	//{
+	//	scene->removeActor(m_player1);
+	//}
 }
 
-void Player::addTrail()
-{
-	Game game;
-	Scene* scene = game.getScene(game.getCurrentSceneIndex());
-	scene.addActor(Trail);
-}
+//void Player::addTrail()
+//{
+//	Game game;
+//	Scene* scene = game.getScene(game.getCurrentSceneIndex());
+//	scene.addActor(Trail);
+//}
