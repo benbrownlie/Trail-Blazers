@@ -1,20 +1,45 @@
 #include "Game.h"
-#include "raylib.h"
-
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
-Scene* Game::m_sceneP = new Scene;
 int Game::m_sceneCount = 0;
 int Game::m_currentSceneIndex = 0;
+
+Actor* testActor = new Actor(5, 5, 0, '@', 0);
+Actor* testActor2 = new Actor(5, 6, 0, '$', 0);
+
+Scene* scene1 = new Scene();
 
 Game::Game()
 {
 	m_gameOver = false;
 	m_scenes = new Scene*;
-	m_sceneP = new Scene;
 	m_camera = new Camera2D();
 	m_currentSceneIndex = 0;
 	m_sceneCount = 0;
+}
+
+void* Game::buildWalls()
+{
+	for (int i = 0; i < 30; i++)
+	{
+		Actor* testDummy1 = new Actor(-1, i - 5, 0, '|', 0);
+		Actor* testDummy2 = new Actor(33, i - 5, 0, '|', 0);
+		Actor* testDummy3 = new Actor(1.5 + i, -1, 0, '-', 0);
+		Actor* testDummy4 = new Actor(1.5 + i, 25, 0, '-', 0);
+		scene1->addActor(testDummy1);
+		scene1->addActor(testDummy2);
+		scene1->addActor(testDummy3);
+		scene1->addActor(testDummy4);
+	}
+
+	return 0;
+}
+
+void* Game::spawnPlayer()
+{
+	Player* player1 = new Player(10, 10, 5, 'o', 5);
+	scene1->addActor(player1);
+	return 0;
 }
 
 void Game::start()
@@ -22,18 +47,18 @@ void Game::start()
 	int screenWidth = 1024;
 	int screenHeight = 760;
 
-	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+	InitWindow(screenWidth, screenHeight, "Trail Blazers");
 	m_camera->offset = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->target = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->zoom = 1;
 
 	SetTargetFPS(60);
 
-	int startingSceneIndex = 0;
-
-	startingSceneIndex = addScene(m_sceneP);
-
-	m_sceneP->addActor(m_player1);
+	addScene(scene1);
+	//scene1->addActor(testActor);
+	//scene1->addActor(testActor2);
+	buildWalls();
+	spawnPlayer();
 }
 
 void Game::update(float deltaTime)
@@ -77,12 +102,15 @@ void Game::run()
 	while (!m_gameOver && !RAYLIB_H::WindowShouldClose())
 	{
 		float deltaTime = RAYLIB_H::GetFrameTime();
+
 		update(deltaTime);
 		draw();
 	}
 
 	end();
 }
+
+
 
 Scene* Game::getScene(int index)
 {
@@ -109,7 +137,7 @@ int Game::addScene(Scene* scene)
 		return -1;
 
 	//Create a new temporary array that one size larger than the original
-	Scene** tempArray = new Scene*[m_sceneCount + 1];
+	Scene** tempArray = new Scene * [m_sceneCount + 1];
 
 	//Copy values from old array into new array
 	for (int i = 0; i < m_sceneCount; i++)
@@ -139,7 +167,7 @@ bool Game::removeScene(Scene* scene)
 	bool sceneRemoved = false;
 
 	//Create a new temporary array that is one less than our original array
-	Scene** tempArray = new Scene*[m_sceneCount];
+	Scene** tempArray = new Scene * [m_sceneCount];
 
 	//Copy all scenes except the scene we don't want into the new array
 	int j = 0;
@@ -162,7 +190,7 @@ bool Game::removeScene(Scene* scene)
 		m_scenes = tempArray;
 		m_sceneCount--;
 	}
-		
+
 
 	return sceneRemoved;
 }
@@ -204,3 +232,4 @@ void Game::setGameOver(bool value)
 {
 	Game::m_gameOver = value;
 }
+
