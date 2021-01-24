@@ -20,18 +20,18 @@ Game::Game()
 	m_sceneCount = 0;
 }
 
-void* Game::buildWalls()
+void* Game::arenaBattle()
 {
 	for (int i = 0; i < 30; i++)
 	{
-		Wall* testDummy1 = new Wall(-1, i-5, 0, '|', 0);
-		Wall* testDummy2 = new Wall(33, i-5, 0, '|', 0);
-		Wall* testDummy3 = new Wall(1.5+i, -1, 0, '-', 0);
-		Wall* testDummy4 = new Wall(1.5+i, 25, 0, '-', 0);
-		scene1->addWall(testDummy1);
-		scene1->addWall(testDummy2);
-		scene1->addWall(testDummy3);
-		scene1->addWall(testDummy4);
+		Wall* leftWall = new Wall(-1, i-5, 0, '|', 0);
+		Wall* rightWall = new Wall(33, i-5, 0, '|', 0);
+		Wall* topWall = new Wall(1.5+i, -1, 0, '-', 0);
+		Wall* bottomWall = new Wall(1.5+i, 25, 0, '-', 0);
+		scene1->addWall(leftWall);
+		scene1->addWall(rightWall);
+		scene1->addWall(topWall);
+		scene1->addWall(bottomWall);
 	}
 
 	return 0;
@@ -50,9 +50,6 @@ void Game::start()
 	SetTargetFPS(60);
 
 	addScene(scene1);
-	//scene1->addActor(testActor);
-	//scene1->addActor(testActor2);
-	buildWalls();
 }
 
 void Game::update(float deltaTime)
@@ -98,6 +95,8 @@ void Game::run()
 		float deltaTime = RAYLIB_H::GetFrameTime();
 		update(deltaTime);
 		draw();
+		arenaBattle();
+
 	}
 
 	end();
