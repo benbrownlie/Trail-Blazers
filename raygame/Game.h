@@ -7,7 +7,7 @@ static class Game
 public:
     Game();
 
-    static void* buildWalls();
+    static void* arenaBattle();
 
     /// <summary>
     /// Returns the scene at the index given.
