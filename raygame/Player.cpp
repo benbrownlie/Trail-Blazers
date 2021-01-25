@@ -19,11 +19,12 @@ Player::Player(float x, float y, float collision, char icon, float maxSpeed)
 
 //void Player::onCollision(Actor* other)
 //{
+//	
 //	Game game;
 //	Scene* scene = game.getScene(game.getCurrentSceneIndex());
-//	if (other == )
+//	if (other)
 //	{
-//		scene->removeActor(other);
+//		scene->removeActor();
 //	}
 //}
 

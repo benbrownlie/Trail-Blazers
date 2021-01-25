@@ -37,6 +37,13 @@ void* Game::arenaBattle()
 	return 0;
 }
 
+void* Game::spawnPlayer()
+{
+	Player* player1 = new Actor(10, 10, 5, 'o', 5);
+	scene1->addActor(player1);
+	return 0;
+}
+
 void Game::start()
 {
 	int screenWidth = 1024;
@@ -50,6 +57,10 @@ void Game::start()
 	SetTargetFPS(60);
 
 	addScene(scene1);
+	//scene1->addActor(testActor);
+	//scene1->addActor(testActor2);
+	buildWalls();
+	spawnPlayer();
 }
 
 void Game::update(float deltaTime)

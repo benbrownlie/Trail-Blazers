@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "Player.h"
 class Camera2D;
 
 static class Game
@@ -17,7 +18,7 @@ public:
     /// <returns></returns>
     static Scene* getScene(int index);
 
-
+    static void* spawnPlayer();
     /// <summary>
     /// Returns the scene that is at the index of the 
     /// current scene index
