@@ -20,18 +20,18 @@ Game::Game()
 	m_sceneCount = 0;
 }
 
-void* Game::buildWalls()
+void* Game::arenaBattle()
 {
 	for (int i = 0; i < 30; i++)
 	{
-		Actor* testDummy1 = new Actor(-1, i-5, 0, '|', 0);
-		Actor* testDummy2 = new Actor(33, i-5, 0, '|', 0);
-		Actor* testDummy3 = new Actor(1.5+i, -1, 0, '-', 0);
-		Actor* testDummy4 = new Actor(1.5+i, 25, 0, '-', 0);
-		scene1->addActor(testDummy1);
-		scene1->addActor(testDummy2);
-		scene1->addActor(testDummy3);
-		scene1->addActor(testDummy4);
+		Actor* leftWall = new Actor(-1, i-5, 0, '|', 0);
+		Actor* rightWall = new Actor(33, i-5, 0, '|', 0);
+		Actor* topWall = new Actor(1.5+i, -1, 0, '-', 0);
+		Actor* bottomWall = new Actor(1.5+i, 25, 0, '-', 0);
+		scene1->addActor(leftWall);
+		scene1->addActor(rightWall);
+		scene1->addActor(topWall);
+		scene1->addActor(bottomWall);
 	}
 
 	return 0;
@@ -106,6 +106,8 @@ void Game::run()
 		float deltaTime = RAYLIB_H::GetFrameTime();
 		update(deltaTime);
 		draw();
+		arenaBattle();
+
 	}
 
 	end();
@@ -227,6 +229,13 @@ void Game::destroy(Actor* actor)
 		actor->getParent()->removeChild(actor);
 	actor->end();
 	delete actor;
+}
+
+void Game::destroyWall(Wall* wall)
+{
+	getCurrentScene()->removeWall(wall);
+	wall->end();
+	delete wall;
 }
 
 void Game::setGameOver(bool value)

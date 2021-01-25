@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor.h"
+#include "Wall.h"
 
 class Scene
 {
@@ -32,6 +33,14 @@ public:
     /// <returns>False if the actor is a nullptr or isn't in the array.</returns>
     bool removeActor(Actor* actor);
 
+    //Same as addActor function with the parameter changed to take in a wall instead
+    void addWall(Wall* wall);
+
+    //Same as removeActor but used to remove walls from the scene
+    bool removeWall(int index);
+
+    bool removeWall(Wall* wall);
+
     virtual void start();
 
     /// <summary>
@@ -52,5 +61,9 @@ private:
     MathLibrary::Matrix3* m_world;
     bool m_started;
     int m_actorCount;
+
+    Wall** m_walls;
+    int m_wallsCount;
+
 };
 

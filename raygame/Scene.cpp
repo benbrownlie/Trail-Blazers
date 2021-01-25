@@ -104,6 +104,86 @@ bool Scene::removeActor(Actor* actor)
     return actorRemoved;
 }
 
+//The following functions: addWall, removeWall, removeWall. Function identical to the add and remove actor funtions
+//With the difference being a Wall is passed in instead of an Actor
+void Scene::addWall(Wall* wall)
+{
+    Wall** appendedArray = new Wall * [m_wallsCount + 1];
+
+    for (int i = 0; i < m_wallsCount; i++)
+    {
+        appendedArray[i] = m_walls[i];
+    }
+
+    appendedArray[m_wallsCount] = wall;
+
+    m_walls = appendedArray;
+    m_wallsCount++;
+}
+
+bool Scene::removeWall(int index)
+{
+    if (index < 0 || index >= m_wallsCount)
+    {
+        return false;
+    }
+
+    bool wallRemoved = false;
+ 
+    Wall** newArray = new Wall * [m_wallsCount - 1];
+
+    int j = 0;
+
+    for (int i = 0; i < m_wallsCount; i++)
+    {
+        if (i != index)
+        {
+            newArray[j] = m_walls[i];
+            j++;
+        }
+        else
+        {
+            delete m_actors[i];
+            wallRemoved = true;
+        }
+    }
+
+    m_walls = newArray;
+    m_wallsCount--;
+    return wallRemoved;
+}
+
+bool Scene::removeWall(Wall* wall)
+{
+    if (!wall)
+    {
+        return false;
+    }
+
+    bool wallRemoved = false;
+
+    Wall** newArray = new Wall * [m_wallsCount - 1];
+
+    int j = 0;
+
+    for (int i = 0; i < m_wallsCount; i++)
+    {
+        if (wall != m_walls[i])
+        {
+            newArray[j] = m_walls[i];
+            j++;
+        }
+        else
+        {
+            wallRemoved = true;
+        }
+    }
+
+    m_walls = newArray;
+    m_wallsCount--;
+    return wallRemoved;
+}
+
 void Scene::start()
 {
     m_started = true;
