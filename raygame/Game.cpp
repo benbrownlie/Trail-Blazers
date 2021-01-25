@@ -103,6 +103,8 @@ void Game::run()
 
 		update(deltaTime);
 		draw();
+		arenaBattle();
+
 	}
 
 	end();
