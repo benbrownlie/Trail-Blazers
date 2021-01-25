@@ -24,14 +24,14 @@ void* Game::arenaBattle()
 {
 	for (int i = 0; i < 30; i++)
 	{
-		Wall* leftWall = new Wall(-1, i-5, 0, '|', 0);
-		Wall* rightWall = new Wall(33, i-5, 0, '|', 0);
-		Wall* topWall = new Wall(1.5+i, -1, 0, '-', 0);
-		Wall* bottomWall = new Wall(1.5+i, 25, 0, '-', 0);
-		scene1->addWall(leftWall);
-		scene1->addWall(rightWall);
-		scene1->addWall(topWall);
-		scene1->addWall(bottomWall);
+		Actor* leftWall = new Actor(-1, i-5, 0, '|', 0);
+		Actor* rightWall = new Actor(33, i-5, 0, '|', 0);
+		Actor* topWall = new Actor(1.5+i, -1, 0, '-', 0);
+		Actor* bottomWall = new Actor(1.5+i, 25, 0, '-', 0);
+		scene1->addActor(leftWall);
+		scene1->addActor(rightWall);
+		scene1->addActor(topWall);
+		scene1->addActor(bottomWall);
 	}
 
 	return 0;
