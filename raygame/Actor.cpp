@@ -267,8 +267,6 @@ void Actor::draw()
 
     if (m_sprite)
         m_sprite->draw(*m_globalTransform);
-    else
-        RAYLIB_H::DrawText(&m_icon, getWorldPosition().x * 32, getWorldPosition().y * 32, 50, BLUE);
     //Raylib.DrawCircleLines((int)(WorldPosition.X * 32), (int)(WorldPosition.Y * 32), _collisionRadius * 32, _rayColor);
 }
 

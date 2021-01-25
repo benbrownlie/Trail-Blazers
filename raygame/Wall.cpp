@@ -1,6 +1,4 @@
 #include "Wall.h"
-#include "raylib.h"
-#include "Game.h"
 Wall::Wall()
 {
 
@@ -11,14 +9,15 @@ Wall::Wall(float x, float y, float collisionRadius, char icon, float maxSpeed, i
 	testVariable = testVal;
 }
 
-Wall::Wall(float x, float y, float collisionRadius, char icon, float maxSpeed) : Actor(x, y, collisionRadius, icon, maxSpeed)
+Wall::Wall(float x, float y, float collisionRadius, char icon, float maxSpeed)
 {
 
 }
 
 void Wall::onCollision(Actor* other)
 {
-	Game::destroy(other);
+	//temporary bool until a different collision method is written
+	tempBool = false;
 }
 
 void Wall::start()
@@ -39,9 +38,4 @@ void Wall::update()
 void Wall::end()
 {
 
-}
-
-void Wall::draw()
-{
-	RAYLIB_H::DrawText(&m_icon, getWorldPosition().x * 32, getWorldPosition().y * 32, 50, BLUE);
 }
