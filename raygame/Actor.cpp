@@ -29,7 +29,10 @@ Actor::Actor(float x, float y, float collisionRadius, const char* spriteFilePath
 {
     m_sprite = new Sprite(spriteFilePath);
 }
-
+Actor::Actor(Vector2 x, Vector2 y, float collisionRadius, const char* spriteFilePath, float maxSpeed)
+{
+   
+}
 MathLibrary::Vector2 Actor::getForward()
 {
     return MathLibrary::Vector2(m_globalTransform->m11, m_globalTransform->m21).getNormalized();
@@ -239,8 +242,16 @@ void Actor::onCollision(Actor* other)
 
 void Actor::update(float deltaTime)
 {
+    float x = -Game::getKeyDown(KEY_LEFT) + Game::getKeyDown(KEY_RIGHT);
+    float y = -Game::getKeyDown(KEY_UP) + Game::getKeyDown(KEY_DOWN);
+    setAcceleration(MathLibrary::Vector2(x, y));
+    if (getVelocity().getMagnitude() > 0)
+    {
+        lookAt(getWorldPosition() + getVelocity().getNormalized());
+    }
+    
     *m_localTransform = *m_translation * *m_rotation * *m_scale;
-
+    
     updateGlobalTransform();
 
     setVelocity(m_velocity + m_acceleration);
@@ -254,7 +265,7 @@ void Actor::update(float deltaTime)
 
 void Actor::draw()
 {
-    DrawCircle(getWorldPosition().x * 32, getWorldPosition().y * 32, 50, BLUE);
+    DrawCircle(getWorldPosition().x * 32, getWorldPosition().y * 32, 50, RED);
     //Draws the actor and a line indicating it facing to the raylib window
     DrawLine(
         (int)(getWorldPosition().x * 32),
@@ -266,7 +277,6 @@ void Actor::draw()
 
     if (m_sprite)
         m_sprite->draw(*m_globalTransform);
-    //Raylib.DrawCircleLines((int)(WorldPosition.X * 32), (int)(WorldPosition.Y * 32), _collisionRadius * 32, _rayColor);
 }
 
 void Actor::debug()

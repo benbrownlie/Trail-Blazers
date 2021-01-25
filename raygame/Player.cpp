@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Game.h"
 
 Player::Player()
 {
@@ -32,27 +33,28 @@ Player::Player(float x, float y, float collision, char icon, float maxSpeed)
 	m_icon = icon;
 	m_maxSpeed = maxSpeed;
 }
+
 void Player::update(float deltaTime)
 {
-	float xVelocity = 0;
-	float yVelocity = 0;
-	if (RAYLIB_H::IsKeyDown(KEY_A) == true)
+	float x = -Game::getKeyDown(KEY_A) + Game::getKeyDown(KEY_D);
+	float y = -Game::getKeyDown(KEY_W) + Game::getKeyDown(KEY_S);
+	setAcceleration(MathLibrary::Vector2(x, y));
+	if (getVelocity().getMagnitude() > 0)
 	{
-		xVelocity = -1;
+		lookAt(getWorldPosition() + getVelocity().getNormalized());
 	}
-	else if (RAYLIB_H::IsKeyDown(KEY_D) == true)
-	{
-		xVelocity = 1;
-	}
-	else if (RAYLIB_H::IsKeyDown(KEY_W) == true)
-	{
-		yVelocity = 1;
-	}
-	else if (RAYLIB_H::IsKeyDown(KEY_S) == true)
-	{
-		yVelocity = -1;
-	}
-	setAcceleration(MathLibrary::Vector2(xVelocity, yVelocity));
+	
+	*m_localTransform = *m_translation * *m_rotation * *m_scale;
+
+	*m_globalTransform = *m_localTransform;
+
+	setVelocity(m_velocity + m_acceleration);
+	
+	if (m_velocity.getMagnitude() > m_maxSpeed)
+		m_velocity = m_velocity.getNormalized() * m_maxSpeed;
+
+	//Increase position by the current velocity
+	setLocalPosition(getLocalPosition() + m_velocity * deltaTime);
 }
 
 void Player::draw()
@@ -69,7 +71,16 @@ void Player::draw()
 
 	if (m_sprite)
 		m_sprite->draw(*m_globalTransform);
-	//Raylib.DrawCircleLines((int)(WorldPosition.X * 32), (int)(WorldPosition.Y * 32), _collisionRadius * 32, _rayColor);
+}
+bool Player::checkCollision(Player* other)
+{
+	float distance = (other->getWorldPosition() - getWorldPosition()).getMagnitude();
+	return distance <= m_collisionRadius + other->m_collisionRadius;
+}
+
+void Player::onCollision(Actor* other)
+{
+	Game::destroy(this);
 }
 //void Player::onCollision(Actor* other)
 //{

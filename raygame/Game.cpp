@@ -1,4 +1,5 @@
 #include "Game.h"
+
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
 int Game::m_sceneCount = 0;
@@ -22,23 +23,17 @@ void* Game::buildWalls()
 {
 	for (int i = 0; i < 30; i++)
 	{
-		Actor* testDummy1 = new Actor(-1, i - 5, 0, '|', 0);
+		Actor* testDummy1 = new Actor(-1, i - 5, 0 , '|', 0);
 		Actor* testDummy2 = new Actor(33, i - 5, 0, '|', 0);
 		Actor* testDummy3 = new Actor(1.5 + i, -1, 0, '-', 0);
 		Actor* testDummy4 = new Actor(1.5 + i, 25, 0, '-', 0);
+
 		scene1->addActor(testDummy1);
 		scene1->addActor(testDummy2);
 		scene1->addActor(testDummy3);
 		scene1->addActor(testDummy4);
 	}
 
-	return 0;
-}
-
-void* Game::spawnPlayer()
-{
-	Player* player1 = new Player(10, 10, 5, 'o', 5);
-	scene1->addActor(player1);
 	return 0;
 }
 
@@ -58,7 +53,10 @@ void Game::start()
 	//scene1->addActor(testActor);
 	//scene1->addActor(testActor2);
 	buildWalls();
-	spawnPlayer();
+	m_player1 = new Player(10, 10, 3, 'o', 5);
+	Actor* player2 = new Actor(20, 10, 3, 'o', 5);
+	scene1->addActor(m_player1);
+	scene1->addActor(player2);
 }
 
 void Game::update(float deltaTime)
@@ -220,6 +218,15 @@ bool Game::getKeyPressed(int key)
 }
 
 void Game::destroy(Actor* actor)
+{
+	getCurrentScene()->removeActor(actor);
+	if (actor->getParent())
+		actor->getParent()->removeChild(actor);
+	actor->end();
+	delete actor;
+}
+
+void Game::destroy(Player* actor)
 {
 	getCurrentScene()->removeActor(actor);
 	if (actor->getParent())

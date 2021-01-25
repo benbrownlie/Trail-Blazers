@@ -15,7 +15,7 @@ public:
     /// <returns></returns>
     static Scene* getScene(int index);
 
-
+    void* buildWalls();
     /// <summary>
     /// Returns the scene that is at the index of the 
     /// current scene index
@@ -70,6 +70,8 @@ public:
     /// <param name="actor">The actor that will be deleted.</param>
     static void destroy(Actor* actor);
 
+    static void destroy(Player* actor);
+
     /// <summary>
     /// Sets the game state to be the given value. If true, the game will end.
     /// </summary>
@@ -79,8 +81,9 @@ public:
     /// <returns>The world matrix of the current scene.</returns>
     static MathLibrary::Matrix3* getWorld();
     void run();
-    Actor* m_player1;
+    Player* m_player1;
     Player* m_player2;
+
 private:
 	void start();
 	void update(float delaTime);

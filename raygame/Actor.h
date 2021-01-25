@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <Vector2.h>
 #include <Matrix3.h>
 
@@ -29,6 +30,7 @@ public:
     /// <param name="maxSpeed">The largest the magnitude of the actors velocity can be.</param>
     Actor(float x, float y, float collisionRadius, const char* spriteFilePath, float maxSpeed);
 
+    Actor(Vector2 x, Vector2 y, float collisionRadius, const char* spriteFilePath, float maxSpeed);
     /// <summary>
     /// </summary>
     /// <returns>If the actors start function has been called.</returns>
@@ -166,6 +168,7 @@ public:
     virtual void draw();
     virtual void debug();
     virtual void end();
+    float m_collisionRadius;
 
 protected:
     /// <summary>
@@ -187,6 +190,7 @@ protected:
     MathLibrary::Matrix3* m_rotation;
     MathLibrary::Matrix3* m_translation;
     MathLibrary::Matrix3* m_scale;
+    
     Actor** m_children;
     MathLibrary::Vector2 m_velocity;
     MathLibrary::Vector2 m_acceleration;
@@ -195,7 +199,7 @@ protected:
 
 private:
     bool m_started;
-    float m_collisionRadius;
+    
     Actor* m_parent;
     int m_childCount;
     Sprite* m_sprite;
