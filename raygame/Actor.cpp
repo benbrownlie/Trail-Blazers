@@ -1,4 +1,3 @@
-
 #include <cmath>
 #include "Actor.h"
 #include "raylib.h"
@@ -14,7 +13,7 @@ Actor::Actor(float x, float y, float collisionRadius, char icon = ' ', float max
     m_scale = new MathLibrary::Matrix3();
 
     m_icon = icon;
-    setLocalPosition(MathLibrary::Vector2(x,y));
+    setLocalPosition(MathLibrary::Vector2(x, y));
     m_velocity = MathLibrary::Vector2();
     m_collisionRadius = collisionRadius;
     m_childCount = 0;
@@ -30,7 +29,10 @@ Actor::Actor(float x, float y, float collisionRadius, const char* spriteFilePath
 {
     m_sprite = new Sprite(spriteFilePath);
 }
-
+Actor::Actor(Vector2 x, Vector2 y, float collisionRadius, const char* spriteFilePath, float maxSpeed)
+{
+   
+}
 MathLibrary::Vector2 Actor::getForward()
 {
     return MathLibrary::Vector2(m_globalTransform->m11, m_globalTransform->m21).getNormalized();
@@ -81,7 +83,7 @@ void Actor::setVelocity(MathLibrary::Vector2 value)
 
 MathLibrary::Vector2 Actor::getAcceleration()
 {
-	return m_acceleration;
+    return m_acceleration;
 }
 
 void Actor::setAcceleration(MathLibrary::Vector2 value)
@@ -97,7 +99,7 @@ void Actor::start()
 void Actor::addChild(Actor* child)
 {
     //Create a new array with a size one greater than our old array
-    Actor** appendedArray = new Actor*[m_childCount + 1];
+    Actor** appendedArray = new Actor * [m_childCount + 1];
     //Copy the values from the old array to the new array
     for (int i = 0; i < m_childCount; i++)
     {
@@ -207,7 +209,7 @@ void Actor::lookAt(MathLibrary::Vector2 position)
 {
     //Find the direction that the actor should look in
     MathLibrary::Vector2 direction = (position - getWorldPosition()).getNormalized();
-    
+
     //Use the dotproduct to find the angle the actor needs to rotate
     float dotProd = MathLibrary::Vector2::dotProduct(getForward(), direction);
     if (abs(dotProd) > 1)
@@ -240,8 +242,16 @@ void Actor::onCollision(Actor* other)
 
 void Actor::update(float deltaTime)
 {
+    float x = -Game::getKeyDown(KEY_LEFT) + Game::getKeyDown(KEY_RIGHT);
+    float y = -Game::getKeyDown(KEY_UP) + Game::getKeyDown(KEY_DOWN);
+    setAcceleration(MathLibrary::Vector2(x, y));
+    if (getVelocity().getMagnitude() > 0)
+    {
+        lookAt(getWorldPosition() + getVelocity().getNormalized());
+    }
+    
     *m_localTransform = *m_translation * *m_rotation * *m_scale;
-
+    
     updateGlobalTransform();
 
     setVelocity(m_velocity + m_acceleration);
@@ -255,7 +265,7 @@ void Actor::update(float deltaTime)
 
 void Actor::draw()
 {
-    DrawCircle(getWorldPosition().x * 32, getWorldPosition().y * 32, 50, BLUE);
+    DrawCircle(getWorldPosition().x * 32, getWorldPosition().y * 32, 50, RED);
     //Draws the actor and a line indicating it facing to the raylib window
     DrawLine(
         (int)(getWorldPosition().x * 32),

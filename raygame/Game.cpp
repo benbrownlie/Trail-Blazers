@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "raylib.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -20,27 +19,21 @@ Game::Game()
 	m_sceneCount = 0;
 }
 
-void* Game::arenaBattle()
+void* Game::buildWalls()
 {
 	for (int i = 0; i < 30; i++)
 	{
-		Actor* leftWall = new Actor(-1, i-5, 0, '|', 0);
-		Actor* rightWall = new Actor(33, i-5, 0, '|', 0);
-		Actor* topWall = new Actor(1.5+i, -1, 0, '-', 0);
-		Actor* bottomWall = new Actor(1.5+i, 25, 0, '-', 0);
-		scene1->addActor(leftWall);
-		scene1->addActor(rightWall);
-		scene1->addActor(topWall);
-		scene1->addActor(bottomWall);
+		Actor* testDummy1 = new Actor(-1, i - 5, 0 , '|', 0);
+		Actor* testDummy2 = new Actor(33, i - 5, 0, '|', 0);
+		Actor* testDummy3 = new Actor(1.5 + i, -1, 0, '-', 0);
+		Actor* testDummy4 = new Actor(1.5 + i, 25, 0, '-', 0);
+
+		scene1->addActor(testDummy1);
+		scene1->addActor(testDummy2);
+		scene1->addActor(testDummy3);
+		scene1->addActor(testDummy4);
 	}
 
-	return 0;
-}
-
-void* Game::spawnPlayer()
-{
-	Player* player1 = new Actor(10, 10, 5, 'o', 5);
-	scene1->addActor(player1);
 	return 0;
 }
 
@@ -60,7 +53,10 @@ void Game::start()
 	//scene1->addActor(testActor);
 	//scene1->addActor(testActor2);
 	buildWalls();
-	spawnPlayer();
+	m_player1 = new Player(10, 10, 3, 'o', 5);
+	Actor* player2 = new Actor(20, 10, 3, 'o', 5);
+	scene1->addActor(m_player1);
+	scene1->addActor(player2);
 }
 
 void Game::update(float deltaTime)
@@ -104,6 +100,7 @@ void Game::run()
 	while (!m_gameOver && !RAYLIB_H::WindowShouldClose())
 	{
 		float deltaTime = RAYLIB_H::GetFrameTime();
+
 		update(deltaTime);
 		draw();
 		arenaBattle();
@@ -140,7 +137,7 @@ int Game::addScene(Scene* scene)
 		return -1;
 
 	//Create a new temporary array that one size larger than the original
-	Scene** tempArray = new Scene*[m_sceneCount + 1];
+	Scene** tempArray = new Scene * [m_sceneCount + 1];
 
 	//Copy values from old array into new array
 	for (int i = 0; i < m_sceneCount; i++)
@@ -170,7 +167,7 @@ bool Game::removeScene(Scene* scene)
 	bool sceneRemoved = false;
 
 	//Create a new temporary array that is one less than our original array
-	Scene** tempArray = new Scene*[m_sceneCount];
+	Scene** tempArray = new Scene * [m_sceneCount];
 
 	//Copy all scenes except the scene we don't want into the new array
 	int j = 0;
@@ -193,7 +190,7 @@ bool Game::removeScene(Scene* scene)
 		m_scenes = tempArray;
 		m_sceneCount--;
 	}
-		
+
 
 	return sceneRemoved;
 }
@@ -231,14 +228,17 @@ void Game::destroy(Actor* actor)
 	delete actor;
 }
 
-void Game::destroyWall(Wall* wall)
+void Game::destroy(Player* actor)
 {
-	getCurrentScene()->removeWall(wall);
-	wall->end();
-	delete wall;
+	getCurrentScene()->removeActor(actor);
+	if (actor->getParent())
+		actor->getParent()->removeChild(actor);
+	actor->end();
+	delete actor;
 }
 
 void Game::setGameOver(bool value)
 {
 	Game::m_gameOver = value;
 }
+
