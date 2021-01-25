@@ -54,7 +54,7 @@ void Game::start()
 	//scene1->addActor(testActor2);
 	buildWalls();
 	m_player1 = new Player(10, 10, 3, 'o', 5);
-	Actor* player2 = new Actor(20, 10, 3, 'o', 5);
+	Actor* player2 = new Actor(20, 10, 3, ' ', 5);
 	scene1->addActor(m_player1);
 	scene1->addActor(player2);
 }
@@ -103,7 +103,6 @@ void Game::run()
 
 		update(deltaTime);
 		draw();
-		arenaBattle();
 
 	}
 

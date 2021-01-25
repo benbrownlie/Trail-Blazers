@@ -8,8 +8,6 @@ static class Game
 public:
     Game();
 
-    static void* arenaBattle();
-
     /// <summary>
     /// Returns the scene at the index given.
     /// Returns an empty scene if the index is out of bounds
