@@ -10,10 +10,10 @@ Wall::Wall(float x, float y, float collisionRadius, char icon, float maxSpeed, i
 	testVariable = testVal;
 }
 
-//Wall::Wall(float x, float y, float collisionRadius, char icon, float maxSpeed)
-//{
-//
-//}
+Wall::Wall(float x, float y, float collisionRadius, char icon, float maxSpeed)
+{
+
+}
 
 void Wall::onCollision(Actor* other)
 {
